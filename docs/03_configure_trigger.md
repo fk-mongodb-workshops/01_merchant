@@ -1,5 +1,7 @@
 # Configure Trigger
 
+## Configuration
+
 Open Trigger page and create new Trigger
 ![image](https://github.com/user-attachments/assets/8e8b9b10-5f2e-474c-a605-dced549b13f8)
 
@@ -51,6 +53,24 @@ Back to Trigger screen and create new Trigger
 ![image](https://github.com/user-attachments/assets/7f42e803-fd63-45c7-92ed-9ea09d0817ce)
 
 ![image](https://github.com/user-attachments/assets/d36dc67a-8884-45fa-bb2a-eb2f4e9af95d)
+
+## Test
+
+Insert new record into customer_refuels
+```
+{
+  "amount": 99000,
+  "litres": 20,
+  "spbu": "111000",
+  "date": "2025-04-15 10:10",
+  "product": "RON92",
+  "user_id": "0001"
+}
+```
+![image](https://github.com/user-attachments/assets/55c36c8b-2259-4bb7-9368-9f5d84860c21)
+
+See new trx_logs document is added
+![image](https://github.com/user-attachments/assets/3cb97af5-96ba-4d51-8eb6-acb451df343a)
 
 
 ## Known Issue
