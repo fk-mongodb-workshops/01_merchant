@@ -10,4 +10,4 @@ Create user
 ![image](https://github.com/user-attachments/assets/08e17a76-1cdf-4eb0-8a9e-7299452db5b6)
 
 Wait until the cluster is created
-![image](https://github.com/user-attachments/assets/d1861798-6d4f-46d9-a9a6-1f5010da5c11)
+![image](https://github.com/user-attachments/assets/213c9013-e5c8-4860-9deb-4208d3a63026)
