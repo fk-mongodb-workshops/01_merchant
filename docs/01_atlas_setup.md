@@ -11,3 +11,6 @@ Create user
 
 Wait until the cluster is created
 ![image](https://github.com/user-attachments/assets/213c9013-e5c8-4860-9deb-4208d3a63026)
+
+Allow all IPs connecting to your cluster
+![image](https://github.com/user-attachments/assets/6d239ba3-8d9f-4050-82fb-f247ce1ec2db)
