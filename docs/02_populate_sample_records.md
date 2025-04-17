@@ -106,3 +106,6 @@ Collection: kiosks
   ]
 }
 ```
+
+# View in Atlas Data Explorer
+![image](https://github.com/user-attachments/assets/033cd08c-71af-4ba5-81c6-a8545dfbbefc)
