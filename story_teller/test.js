@@ -1,5 +1,6 @@
 import { customerToStory } from "./translator.js";
 import { embed } from "./embedder.js";
+import { prompt } from "./prompter.js";
 
 const main = async () => {
 
@@ -55,9 +56,14 @@ const main = async () => {
     ]
   }
   const story = customerToStory(obj);
-  console.log(story);
-  const emb = await embed(story);
-  console.log(emb.data[0].embedding)
+  // console.log(story);
+  // const emb = await embed(story);
+  // console.log(emb.data[0].embedding)
+  
+  const q1 = "How often do I refuel?";
+  const q2 = "How much am i spending per week, what is the rate of increase";
+  const answer = await prompt(story, q2);
+  console.log(answer)
 }
 
 (async function () {
