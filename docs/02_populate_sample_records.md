@@ -107,5 +107,20 @@ Collection: kiosks
 }
 ```
 
+Collection: customer_refuels
+```
+{
+  "_id": {
+    "$oid": "6800afa569fa23da2940853b"
+  },
+  "amount": 99000,
+  "litres": 20,
+  "spbu": "111000",
+  "date": "2025-04-15 10:10",
+  "product": "RON92",
+  "user_id": "0001"
+}
+```
+
 # View in Atlas Data Explorer
-![image](https://github.com/user-attachments/assets/033cd08c-71af-4ba5-81c6-a8545dfbbefc)
+![image](https://github.com/user-attachments/assets/50382258-9bff-44bf-a6ee-7b9df60cc2cd)
