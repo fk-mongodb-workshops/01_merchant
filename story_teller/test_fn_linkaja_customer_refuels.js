@@ -1,4 +1,4 @@
-import fn from "./fn_linkaja_customer_refuels.js";
+import { execute } from "./fn_linkaja_customer_refuels.js";
 
 const main = async () => {
 
@@ -34,7 +34,9 @@ const main = async () => {
       }
     }
   }
-  console.log(fn);
+
+  const res = await execute(obj);
+  console.log(res);
 }
 
 (async function () {
