@@ -56,7 +56,8 @@ Collection: customers
       "date": "2025-03-25 21:15",
       "product": "RON94"
     }
-  ]
+  ],
+"my_story": "test abc"
 }
 ```
 
