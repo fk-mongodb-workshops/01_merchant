@@ -21,7 +21,7 @@ const promptFn = async (knowledge, question) => {
 
                 Question: ${question}.
 
-                Please answer the question using information from the documentation. If the answer isn't in the documentation, say so politely.
+                Please answer the question in maximum one paragraph using information from my profile. If the answer isn't in my profile, say so politely.
                 `,
             },
         ],

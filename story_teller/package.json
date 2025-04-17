@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test_merchant": "node test_merchant.js",
+    "test_payment": "node test_payment.js",
+    "test_fn_linkaja_customer_refuels": "node test_fn_linkaja_customer_refuels.js"
   },
   "author": "",
   "license": "ISC",
