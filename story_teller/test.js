@@ -56,14 +56,21 @@ const main = async () => {
     ]
   }
   const story = customerToStory(obj);
-  // console.log(story);
+  console.log("Quick story about me: ", story);
   // const emb = await embed(story);
   // console.log(emb.data[0].embedding)
-  
+
+  console.log("");
+  console.log("====================");
+  console.log("");
+
   const q1 = "How often do I refuel?";
   const q2 = "How much am i spending per week, what is the rate of increase";
-  const answer = await prompt(story, q2);
+  const q3 = "What fuel product am i spending on the most";
+  const q4 = "How much do I save if I choose RON92 vs RON94"
+  const answer = await prompt(story, q4);
   console.log(answer)
+  console.log("");
 }
 
 (async function () {
