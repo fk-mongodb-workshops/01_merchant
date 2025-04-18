@@ -13,6 +13,7 @@ Collection: customers
     "total_litres": 200,
     "average_spent": 100000,
     "average_litres": 25,
+    "total_activities": 10,
     "most_spbu": "111000",
     "most_product": "RON92"
   },
