@@ -22,7 +22,8 @@ const main = async () => {
       "spbu": "111000",
       "date": "2025-02-15 10:10",
       "product": "RON92",
-      "user_id": "0001"
+      "user_id": "0001",
+      "user_name": "John Hoptin"
     },
     "ns": {
       "db": "linkaja",

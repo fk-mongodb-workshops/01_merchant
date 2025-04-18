@@ -9,7 +9,7 @@ const customerToStory = customerObj => {
   ret = ret + `My average spent is as follow, amount ${customerObj.to_date.average_spent} Rupiah and ${customerObj.to_date.average_litres} litres. `;
   ret = ret + `I mostly visited this gas station ${customerObj.to_date.most_spbu}. `;
   ret = ret + `I mostly purchased this product ${customerObj.to_date.most_product}. `;
-  ret = ret + `My last refueled amount is ${customerObj.last_refuel.total_spent} Rupiah and ${customerObj.last_refuel.total_litres} litres, at this fuel station ${customerObj.last_refuel.spbu}, on ${moment(customerObj.last_refuel.date, "YYYY-MM-DD HH:mm").format("DD-MMM-YYYY HH:mm")}, this product ${customerObj.last_refuel.product}. `;
+  ret = ret + `My last refueled amount is ${customerObj.last_refuel.amount} Rupiah and ${customerObj.last_refuel.litres} litres, at this fuel station ${customerObj.last_refuel.spbu}, on ${moment(customerObj.last_refuel.date, "YYYY-MM-DD HH:mm").format("DD-MMM-YYYY HH:mm")}, this product ${customerObj.last_refuel.product}. `;
   ret = ret + `The following is my most recent refueling activities: `;
   for (let i = 0; i < customerObj.refuels.length; i++) {
     const r = customerObj.refuels[i];
