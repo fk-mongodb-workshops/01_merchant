@@ -62,15 +62,15 @@ const exportFn = async function (arg) {
       litres: doc.litres
     }
 
-    const totalSpent = customer.to_date.total_spent || 0;
-    const totalLitres = customer.to_date.total_litres || 0;
-    const totalActivities = customer.to_date.total_activities || 0;
+    const totalSpent = customer && customer.to_date && customer.to_date.total_spent || 0;
+    const totalLitres = customer && customer.to_date && customer.to_date.total_litres || 0;
+    const totalActivities = customer && customer.to_date && customer.to_date.total_activities || 0;
     newCustomer.to_date = {};
     newCustomer.to_date.total_spent = doc.amount + totalSpent;
     newCustomer.to_date.total_litres = doc.litres + totalLitres;
     newCustomer.to_date.total_activities = totalActivities + 1;
-    newCustomer.to_date.average_spent = (newCustomer.to_date.total_spent / newCustomer.to_date.total_activities).toFixed(0);
-    newCustomer.to_date.average_litres = (newCustomer.to_date.total_litres / newCustomer.to_date.total_activities).toFixed(0);
+    newCustomer.to_date.average_spent = parseInt((newCustomer.to_date.total_spent / newCustomer.to_date.total_activities).toFixed(0));
+    newCustomer.to_date.average_litres = parseInt((newCustomer.to_date.total_litres / newCustomer.to_date.total_activities).toFixed(0));
     newCustomer.to_date.most_product = doc.product;
     newCustomer.to_date.most_spbu = doc.spbu;
 
@@ -79,10 +79,11 @@ const exportFn = async function (arg) {
       name: doc.user_name,
     }
 
-    let refuels = newCustomer.refuels;
+    let refuels = customer && customer.refuels || [];
     if (refuels == null) {
       refuels = []
     }
+
     refuels.push(newCustomer.last_refuel);
     newCustomer.refuels = refuels;
 
@@ -97,7 +98,7 @@ const exportFn = async function (arg) {
         "Authorization": `Bearer ${voyageAiToken}`
       }
     })
- 
+
     const updateResult = await con.db(dbName).collection(customerCollNm).updateOne({ "profile.userid": doc.user_id },
       {
         $set: {
@@ -110,6 +111,7 @@ const exportFn = async function (arg) {
       });
 
   } catch (err) {
+    console.log(err);
     console.log("Error occurred while executing updating customer record:", err.message);
     await client.close(); // For internal testing
     return { error: err.message };
