@@ -22,7 +22,7 @@ const main = async () => {
       "spbu": "111000",
       "date": "2025-02-15 10:10",
       "product": "RON92",
-      "user_id": "0002",
+      "user_id": "0003",
       "user_name": "John Hoptin"
     },
     "ns": {

@@ -44,6 +44,7 @@ const exportFn = async function (arg) {
   const dbName = "linkaja";
   const trxLogCollNm = "trx_logs";
   const customerCollNm = "customers";
+  const customerRefuelsCollNm = "customer_refuels";
 
   const voyageAiToken = context.environment.values.VOYAGEAI_TOKEN;
 
@@ -52,6 +53,7 @@ const exportFn = async function (arg) {
   try {
     // Transaction logging
     const customerColl = con.db(dbName).collection(customerCollNm);
+    const customerRefuelsColl = con.db(dbName).collection(customerRefuelsCollNm);
     const customer = await customerColl.findOne({ "profile.userid": doc.user_id });
     let newCustomer = {};
     newCustomer.last_refuel = {
@@ -62,15 +64,31 @@ const exportFn = async function (arg) {
       litres: doc.litres
     }
 
-    const totalSpent = customer && customer.to_date && customer.to_date.total_spent || 0;
-    const totalLitres = customer && customer.to_date && customer.to_date.total_litres || 0;
-    const totalActivities = customer && customer.to_date && customer.to_date.total_activities || 0;
+    const refuelAggregate = await customerRefuelsColl.aggregate(
+      [
+        { $match: { user_id: doc.user_id } },
+        {
+          $group: {
+            _id: '$user_id',
+            totalAmount: { $sum: '$amount' },
+            totalLitres: { $sum: '$litres' },
+            avgAmount: { $avg: "$amount" },
+            avgLitres: { $avg: "$litres" },
+            count: { $count: {} }
+          }
+        }
+      ],
+      { maxTimeMS: 60000, allowDiskUse: true }
+    ).toArray();
+
+    const totalSpent = refuelAggregate[0].totalAmount;
+    const totalLitres = refuelAggregate[0].totalLitres;
     newCustomer.to_date = {};
-    newCustomer.to_date.total_spent = doc.amount + totalSpent;
-    newCustomer.to_date.total_litres = doc.litres + totalLitres;
-    newCustomer.to_date.total_activities = totalActivities + 1;
-    newCustomer.to_date.average_spent = parseInt((newCustomer.to_date.total_spent / newCustomer.to_date.total_activities).toFixed(0));
-    newCustomer.to_date.average_litres = parseInt((newCustomer.to_date.total_litres / newCustomer.to_date.total_activities).toFixed(0));
+    newCustomer.to_date.total_spent = totalSpent;
+    newCustomer.to_date.total_litres = totalLitres;
+    newCustomer.to_date.average_spent = refuelAggregate[0].avgAmount;
+    newCustomer.to_date.average_litres = refuelAggregate[0].avgLitres;
+    newCustomer.to_date.total_activities = refuelAggregate[0].count;
     newCustomer.to_date.most_product = doc.product;
     newCustomer.to_date.most_spbu = doc.spbu;
 
@@ -79,13 +97,17 @@ const exportFn = async function (arg) {
       name: doc.user_name,
     }
 
-    let refuels = customer && customer.refuels || [];
-    if (refuels == null) {
-      refuels = []
-    }
+    const last4Refuels = await customerRefuelsColl.aggregate(
+      [
+        { $match: { user_id: doc.user_id } },
+        { $sort: { date: -1 } },
+        { $project: { _id: 0 } },
+        { $limit: 4 }
+      ],
+      { maxTimeMS: 60000, allowDiskUse: true }
+    ).toArray();
 
-    refuels.push(newCustomer.last_refuel);
-    newCustomer.refuels = refuels;
+    newCustomer.refuels = last4Refuels;
 
     const myStory = customerToStory(newCustomer);
 

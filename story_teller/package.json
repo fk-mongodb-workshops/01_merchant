@@ -6,7 +6,8 @@
   "scripts": {
     "test_merchant": "node test_merchant.js",
     "test_payment": "node test_payment.js",
-    "test_fn_linkaja_customer_refuels": "node test_fn_linkaja_customer_refuels.js"
+    "test_fn_linkaja_customer_refuels": "node test_fn_linkaja_customer_refuels.js",
+    "insert_payment": "node insert_payment.js"
   },
   "author": "",
   "license": "ISC",
