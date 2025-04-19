@@ -37,6 +37,17 @@ const promptMechantFn = async (knowledge, question) => {
         apiKey: process.env.OPENAI_TOKEN,
     });
 
+    console.log("====================");
+    console.log("Knowledge: ");
+    console.log(knowledge);
+    console.log("");
+
+    console.log("====================");
+    console.log("Question: ");
+    console.log(question);
+    console.log("");
+    console.log("====================");
+
     const completion = await client.chat.completions.create({
         model: "gpt-4.1",
         messages: [

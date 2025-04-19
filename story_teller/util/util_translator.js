@@ -15,4 +15,9 @@ const customerToStoryFn = customerObj => {
     return ret;
 }
 
-export { customerToStoryFn as customerToStory };
+const salesToStoryFn = salesObj => {
+    let ret = `Refuel happened on ${moment(salesObj.date).format("DD-MMM-YYYY HH:mm")} at this station (or SPBU) ${salesObj.station} and this region ${salesObj.region}, as much as ${salesObj.litre} litres of this product ${salesObj.product} and costed ${salesObj.amount} rupiah. `
+    return ret;
+}
+
+export { customerToStoryFn as customerToStory, salesToStoryFn as salesToStory };

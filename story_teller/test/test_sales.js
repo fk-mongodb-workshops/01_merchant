@@ -1,77 +1,43 @@
-import { customerToStory } from "../util/util_translator.js";
+import { salesToStory } from "../util/util_translator.js";
 import { embed } from "../util/util_embedder.js";
-import { prompt } from "../util/util_prompter.js";
-
+import { promptMechant } from "../util/util_prompter.js";
+import { MongoClient } from "mongodb";
+import 'dotenv/config';
 const main = async () => {
 
-  const obj = {
-    "to_date": {
-      "total_spent": 2000000,
-      "total_litres": 200,
-      "average_spent": 100000,
-      "average_litres": 25,
-      "most_spbu": "111000",
-      "most_product": "RON92"
-    },
-    "last_refuel": {
-      "spbu": "111000",
-      "date": "2025-04-15 10:10",
-      "amount": 99000,
-      "product": "RON92",
-      "litres": 20
-    },
-    "profile": {
-      "userid": "0001",
-      "name": "Harta Susila Indrajaya"
-    },
-    "refuels": [
-      {
-        "amount": 99000,
-        "litres": 20,
-        "spbu": "111000",
-        "date": "2025-04-15 10:10",
-        "product": "RON92"
-      },
-      {
-        "amount": 98000,
-        "litres": 25,
-        "spbu": "111000",
-        "date": "2025-04-06 11:10",
-        "product": "RON92"
-      },
-      {
-        "amount": 97000,
-        "litres": 22,
-        "spbu": "111000",
-        "date": "2025-04-01 08:10",
-        "product": "RON92"
-      },
-      {
-        "amount": 101100,
-        "litres": 28,
-        "spbu": "111000",
-        "date": "2025-03-25 21:15",
-        "product": "RON94"
-      }
-    ]
-  }
-  
-  const story = customerToStory(obj);
-  console.log("Quick story about me: ", story);
-  // const emb = await embed(story);
-  // console.log(emb.data[0].embedding)
+  const uri = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@cluster0.0pftinh.mongodb.net/`;
+  const client = new MongoClient(uri);
+  await client.connect();
+  const salesColl = client.db("linkaja").collection("kiosk_transactions");
+  const salesDt = await salesColl.aggregate(
+    [
+      { $sort: { 'Refueled Date': -1 } },
+      { $project: { _id: 0 } },
+      { $limit: 5 }
+    ],
+    { maxTimeMS: 60000, allowDiskUse: true }
+  ).toArray();
 
-  console.log("");
+  // console.log(salesDt);
+  
+  let story = "";
+
+  salesDt.forEach(e => {
+    story += salesToStory(e);
+  })
+  
   console.log("====================");
   console.log("");
 
-  const q1 = "How often do I refuel?";
-  const q2 = "How much am i spending per week, what is the rate of increase";
-  const q3 = "What fuel product am i spending on the most";
-  const q4 = "How much do I save if I choose RON92 vs RON94";
-  const answer = await prompt(story, q4);
+  const q1 = "Which fuel product sold the most in the last 7 days?";
+  const q2 = "What is the total amount of sales that all the petrol kiosks in the Jakarta Pusat region?";
+  const q3 = "What is the average amount spent per customer for each per fuel top-up?";
+  const q4 = "What is the frequency of fuel top up for a Jakarta Selatan?";
+  const answer = await promptMechant(story, q4);
   console.log(answer)
   console.log("");
+
+  await client.close();
 }
 
 (async function () {
