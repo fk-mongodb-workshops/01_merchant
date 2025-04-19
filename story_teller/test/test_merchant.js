@@ -1,6 +1,6 @@
-import { customerToStory } from "./translator.js";
-import { embed } from "./embedder.js";
-import { prompt } from "./prompter.js";
+import { customerToStory } from "../util/util_translator.js";
+import { embed } from "../util/util_embedder.js";
+import { prompt } from "../util/util_prompter.js";
 
 const main = async () => {
 

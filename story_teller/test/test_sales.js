@@ -1,6 +1,6 @@
-import { customerToStory } from "./translator.js";
-import { embed } from "./embedder.js";
-import { prompt } from "./prompter.js";
+import { customerToStory } from "../util/util_translator.js";
+import { embed } from "../util/util_embedder.js";
+import { prompt } from "../util/util_prompter.js";
 
 const main = async () => {
 
@@ -69,8 +69,7 @@ const main = async () => {
   const q2 = "How much am i spending per week, what is the rate of increase";
   const q3 = "What fuel product am i spending on the most";
   const q4 = "How much do I save if I choose RON92 vs RON94";
-  const q5 = "How long did I take to pump my petrol?";
-  const answer = await prompt(story, q5);
+  const answer = await prompt(story, q4);
   console.log(answer)
   console.log("");
 }
