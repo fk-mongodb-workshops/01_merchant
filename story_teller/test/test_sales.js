@@ -13,13 +13,11 @@ const main = async () => {
     [
       { $sort: { 'Refueled Date': -1 } },
       { $project: { _id: 0 } },
-      { $limit: 5 }
+      { $limit: 20 }
     ],
     { maxTimeMS: 60000, allowDiskUse: true }
   ).toArray();
 
-  // console.log(salesDt);
-  
   let story = "";
 
   salesDt.forEach(e => {
@@ -29,7 +27,7 @@ const main = async () => {
   console.log("====================");
   console.log("");
 
-  const q1 = "Which fuel product sold the most in the last 7 days?";
+  const q1 = "Which fuel product sold the most in the last 4 months?";
   const q2 = "What is the total amount of sales that all the petrol kiosks in the Jakarta Pusat region?";
   const q3 = "What is the average amount spent per customer for each per fuel top-up?";
   const q4 = "What is the frequency of fuel top up for a Jakarta Selatan?";

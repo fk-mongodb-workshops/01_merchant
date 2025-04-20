@@ -7,6 +7,8 @@
     "test_merchant": "node test/test_merchant.js",
     "test_payment": "node test/test_payment.js",
     "test_sales": "node test/test_sales.js",
+    "test_find_question_vector": "node test/test_find_question_vector.js",
+    "test_build_question_vector": "node test/test_build_question_vector.js",
     "test_fn_linkaja_customer_refuels": "node test/test_fn_linkaja_customer_refuels.js",
     "insert_payment": "node test/test_insert_payment.js"
   },

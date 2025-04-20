@@ -1,0 +1,1 @@
+npm run-script test_build_question_vector
