@@ -1,0 +1,1 @@
+npm run-script 02_vector_search

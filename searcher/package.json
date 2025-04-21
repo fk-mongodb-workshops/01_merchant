@@ -1,0 +1,20 @@
+{
+  "name": "atlas_vector_search",
+  "version": "0.1.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "01_atlas_search": "node src/01_atlas_search.js",
+    "02_vector_search": "node src/02_vector_search.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.8.4",
+    "cheerio": "^1.0.0",
+    "dotenv": "^16.5.0",
+    "moment": "^2.30.1",
+    "mongodb": "^6.15.0"
+  }
+}
