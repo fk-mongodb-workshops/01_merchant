@@ -38,9 +38,9 @@ let t = {
 let m = {
     $merge: {
         into: {
-            connectionName: "linkaja_dynamic_365",
+            connectionName: "solar_db",
             db: "linkaja",
-            coll: "dynamic_365"
+            coll: "solar_db"
         }
     }
 }

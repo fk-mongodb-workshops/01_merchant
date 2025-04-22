@@ -1,0 +1,1 @@
+print(sp.solarDemo.stats())

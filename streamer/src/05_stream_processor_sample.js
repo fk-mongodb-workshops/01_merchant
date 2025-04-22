@@ -1,0 +1,2 @@
+sp.solarDemo.sample()
+
