@@ -1,6 +1,4 @@
-import { customerToStory } from "../util/util_translator.js";
-import { embed } from "../util/util_embedder.js";
-import { promptBook } from "../util/util_prompter.js";
+import { embed, rerank } from "../util/util_embedder.js";
 import { MongoClient } from "mongodb";
 import 'dotenv/config';
 
@@ -10,29 +8,43 @@ const main = async () => {
   const client = new MongoClient(uri);
   await client.connect();
 
-  const whatToSearch = `Story about murder of schoolboys`;
+  const whatToSearch = `Product RON90 and customer Fernando Karnagi`;
   const whatToSearchEmbObj = await embed(whatToSearch);
   const whatToSearchEmb = whatToSearchEmbObj.data[0].embedding;
 
-  const coll = client.db("bookshop").collection("books");
-  const books = await coll.aggregate(
+  const coll = client.db("linkaja").collection("customers");
+  const customers = await coll.aggregate(
     [
       {
         $vectorSearch: {
-          index: 'synopsis_vector_index',
-          path: 'synopsisEmb',
+          index: 'linkaja_customers_mystory_vector',
+          path: 'my_story_embedding',
           queryVector: whatToSearchEmb,
           numCandidates: 20,
           limit: 3,
         }
       },
-      { $project: { title: 1, author: 1 } }
+      { $project: { _id: 0, my_story: 1 } }
     ],
     { maxTimeMS: 60000, allowDiskUse: true }
   ).toArray()
 
+  const storiesToReranked = customers.map(e => e.my_story)
 
-  console.log(books);
+  console.log(storiesToReranked)
+
+  const rerankedCustomers = await rerank(whatToSearch, storiesToReranked);
+
+  console.log(`Search for - ${whatToSearch}`)
+  console.log(`------------------------------`)
+  console.log(customers);
+
+  console.log(`==============================`)
+  console.log("");
+  console.log(`Reranked`)
+  console.log(`------------------------------`)
+  console.log(rerankedCustomers);
+
   await client.close();
 }
 
