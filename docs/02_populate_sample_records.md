@@ -1,3 +1,17 @@
+# Get connection string from Atlas Cluster
+
+![image](https://github.com/user-attachments/assets/e93456bd-f0c5-4bb8-81c6-4f74916a90cd)
+
+![image](https://github.com/user-attachments/assets/5b5e97b8-cdad-4ad6-9610-a7e323db8718)
+
+Copy the connection string
+![image](https://github.com/user-attachments/assets/13124b57-07b8-4874-8b4a-4e9418702f0c)
+
+# Open Compass UI
+
+Create new connection and paste the connection string
+![image](https://github.com/user-attachments/assets/5070dee6-543e-4b66-9ea7-5052bf1942c4)
+
 # Populate sample records
 
 Database: customers
