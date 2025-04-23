@@ -6,13 +6,13 @@ async function runExample() {
   // start-setup-application-variables
   const kmsProviderName = "local";
 
-  const uri = process.env.MONGODB_URI; // Your connection URI
+  const uri = process.env.MONGODB_DB; // Your connection URI
 
   const keyVaultDatabaseName = "encryption_qe";
   const keyVaultCollectionName = "__keyVault";
   const keyVaultNamespace = `${keyVaultDatabaseName}.${keyVaultCollectionName}`;
-  const encryptedDatabaseName = "medicalRecords_qe";
-  const encryptedCollectionName = "patients";
+  const encryptedDatabaseName = "payment_records_qe";
+  const encryptedCollectionName = "payments";
   // end-setup-application-variables
 
   const kmsProviderCredentials =
@@ -36,7 +36,7 @@ async function runExample() {
 
   // start-find-document
   const findResult = await encryptedCollection.findOne({
-    "patientId": 12345678,
+    "name": "Asep Suparman",
   });
   console.log(findResult);
   // end-find-document

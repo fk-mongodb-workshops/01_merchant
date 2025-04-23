@@ -6,13 +6,13 @@ async function runExample() {
   // start-setup-application-variables
   const kmsProviderName = "local";
 
-  const uri = process.env.MONGODB_URI; // Your connection URI
+  const uri = process.env.MONGODB_DB; // Your connection URI
 
   const keyVaultDatabaseName = "encryption_qe";
   const keyVaultCollectionName = "__keyVault";
   const keyVaultNamespace = `${keyVaultDatabaseName}.${keyVaultCollectionName}`;
-  const encryptedDatabaseName = "medicalRecords_qe";
-  const encryptedCollectionName = "patients";
+  const encryptedDatabaseName = "payment_records_qe";
+  const encryptedCollectionName = "payments";
   // end-setup-application-variables
 
   const kmsProviderCredentials =
@@ -31,22 +31,33 @@ async function runExample() {
     autoEncryption: autoEncryptionOptions,
   });
   // end-create-client
- 
-  // await qeHelper.dropExistingCollection(encryptedClient, encryptedDatabaseName); 
-  // await qeHelper.dropExistingCollection(encryptedClient, keyVaultDatabaseName); 
 
   // start-encrypted-fields-map
   const encryptedFieldsMap = {
     encryptedFields: {
       fields: [
         {
-          path: "patientRecord.ssn",
+          path: "name",
           bsonType: "string",
           queries: { queryType: "equality" },
         },
         {
-          path: "patientRecord.billing",
-          bsonType: "object",
+          path: "ic_no",
+          bsonType: "string"
+        },
+        {
+          path: "amount",
+          bsonType: "int",
+          queries: { queryType: "range" },
+        },
+        {
+          path: "card.card_no",
+          bsonType: "string",
+        },
+        {
+          path: "card.card_name",
+          bsonType: "string",
+          queries: { queryType: "equality" },
         },
       ],
     },

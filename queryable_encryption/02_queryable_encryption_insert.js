@@ -6,13 +6,13 @@ async function runExample() {
   // start-setup-application-variables
   const kmsProviderName = "local";
 
-  const uri = process.env.MONGODB_URI; // Your connection URI
+  const uri = process.env.MONGODB_DB; // Your connection URI
 
   const keyVaultDatabaseName = "encryption_qe";
   const keyVaultCollectionName = "__keyVault";
   const keyVaultNamespace = `${keyVaultDatabaseName}.${keyVaultCollectionName}`;
-  const encryptedDatabaseName = "medicalRecords_qe";
-  const encryptedCollectionName = "patients";
+  const encryptedDatabaseName = "payment_records_qe";
+  const encryptedCollectionName = "payments";
   // end-setup-application-variables
 
   const kmsProviderCredentials =
@@ -23,7 +23,7 @@ async function runExample() {
     keyVaultNamespace,
     kmsProviderCredentials
   );
- 
+
   // start-create-client
   const encryptedClient = new MongoClient(uri, {
     autoEncryption: autoEncryptionOptions,
@@ -31,29 +31,23 @@ async function runExample() {
   // end-create-client
 
   // start-insert-document
-  const patientDocument = {
-    patientName: "Jon Doe",
-    patientId: 12345678,
-    patientRecord: {
-      ssn: "987-65-4320",
-      billing: {
-        type: "Visa",
-        number: "4111111111111111",
-      },
-      billAmount: 1500,
-    },
-  };
- 
+  const paymentDocument = {
+    name: "Asep Suparman",
+    ic_no: "3576014403910003",
+    amount: 90000,
+    user_id: "0003",
+    card: { card_no: "2424242424242424", card_expiry: "01/2026", card_name: "Asep Suparman" }
+  }
 
   const encryptedCollection = encryptedClient
     .db(encryptedDatabaseName)
     .collection(encryptedCollectionName);
 
-  const result = await encryptedCollection.insertOne(patientDocument);
+  const result = await encryptedCollection.insertOne(paymentDocument);
   // end-insert-document
 
   if (result.acknowledged) {
-    console.log("Successfully inserted the patient document.");
+    console.log("Successfully inserted the payment document.");
   }
 
   await encryptedClient.close();
