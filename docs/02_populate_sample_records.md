@@ -126,3 +126,7 @@ Collection: customer_refuels
 
 # View in Atlas Data Explorer
 ![image](https://github.com/user-attachments/assets/50382258-9bff-44bf-a6ee-7b9df60cc2cd)
+
+# View in Compass UI
+![image](https://github.com/user-attachments/assets/5bf5eab2-5b93-4d04-af4d-148e95a6e6ac)
+
