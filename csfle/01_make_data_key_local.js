@@ -28,19 +28,14 @@ const kmsProviders = {
 
 async function main() {
   // start-create-index
-  const uri = process.env.MONGODB_URI;
+  const uri = process.env.MONGODB_DB;
   const keyVaultDatabase = "encryption_csfle";
   const keyVaultCollection = "__keyVault";
   const keyVaultNamespace = `${keyVaultDatabase}.${keyVaultCollection}`;
   const keyVaultClient = new MongoClient(uri);
   await keyVaultClient.connect();
   const keyVaultDB = keyVaultClient.db(keyVaultDatabase);
-  // Drop the Key Vault Collection in case you created this collection
-  // in a previous run of this application.
-  await keyVaultDB.dropDatabase();
-  // Drop the database storing your encrypted fields as all
-  // the DEKs encrypting those fields were deleted in the preceding line.
-  await keyVaultClient.db("healthRecords").dropDatabase();
+  
   const keyVaultColl = keyVaultDB.collection(keyVaultCollection);
   await keyVaultColl.createIndex(
     { keyAltNames: 1 },

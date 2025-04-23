@@ -2,13 +2,14 @@ require("dotenv").config();
 const mongodb = require("mongodb");
 const { MongoClient, Binary } = mongodb;
 
-var db = "medicalRecords_csfle";
-var coll = "patients";
+var db = "payment_records_csfle";
+var coll = "payments";
 var namespace = `${db}.${coll}`;
 // start-kmsproviders
 const fs = require("fs");
-const path = "./master-key.txt";
 const params = require("./const");
+const provider = "local";
+const path = "./master-key.txt";
 const localMasterKey = fs.readFileSync(path);
 const kmsProviders = {
   local: {
@@ -17,7 +18,7 @@ const kmsProviders = {
 };
 // end-kmsproviders
 
-const connectionString = process.env.MONGODB_URI;
+const connectionString = process.env.MONGODB_DB;
 
 // start-key-vault
 const keyVaultNamespace = "encryption_csfle.__keyVault";
@@ -25,47 +26,52 @@ const keyVaultNamespace = "encryption_csfle.__keyVault";
 
 // start-schema
 dataKey = params.DEK;
-
 const schema = {
   bsonType: "object",
   encryptMetadata: {
     keyId: [new Binary(Buffer.from(dataKey, "base64"), 4)],
   },
   properties: {
-    insurance2: {
+    card: {
       bsonType: "object",
       properties: {
-        policyNumber: {
+        card_no: {
           encrypt: {
-            bsonType: "int",
+            bsonType: "string",
+            algorithm: "AEAD_AES_256_CBC_HMAC_SHA_512-Random",
+          },
+        },
+        card_name: {
+          encrypt: {
+            bsonType: "string",
             algorithm: "AEAD_AES_256_CBC_HMAC_SHA_512-Deterministic",
           },
         },
       },
     },
-    medicalRecords2: {
-      encrypt: {
-        bsonType: "array",
-        algorithm: "AEAD_AES_256_CBC_HMAC_SHA_512-Random",
-      },
-    },
-    bloodType2: {
+    name: {
       encrypt: {
         bsonType: "string",
-        algorithm: "AEAD_AES_256_CBC_HMAC_SHA_512-Random",
+        algorithm: "AEAD_AES_256_CBC_HMAC_SHA_512-Deterministic",
       },
     },
-    ssn2: {
+    amount: {
       encrypt: {
         bsonType: "int",
         algorithm: "AEAD_AES_256_CBC_HMAC_SHA_512-Deterministic",
       },
     },
+    ic_no: {
+      encrypt: {
+        bsonType: "string",
+        algorithm: "AEAD_AES_256_CBC_HMAC_SHA_512-Random",
+      },
+    },
   },
 };
 
-var patientSchema = {};
-patientSchema[namespace] = schema;
+var paymentSchema = {};
+paymentSchema[namespace] = schema;
 // end-schema
 
 // start-extra-options
@@ -79,36 +85,36 @@ const secureClient = new MongoClient(connectionString, {
   autoEncryption: {
     keyVaultNamespace,
     kmsProviders,
-    schemaMap: patientSchema,
+    schemaMap: paymentSchema,
     // extraOptions: extraOptions,
   },
 });
+
 // end-client
+const regularClient = new MongoClient(connectionString);
 
 async function main() {
   try {
     await secureClient.connect();
+
     // start-insert
     try {
       const writeResult = await secureClient
         .db(db)
         .collection(coll)
         .insertOne({
-          name: "Fernando Karnagi",
-          ssn2: 241014209,
-          bloodType2: "AB+",
-          medicalRecords2: [{ weight: 180, bloodPressure: "120/80" }],
-          insurance2: {
-            policyNumber: 123142,
-            provider: "MaestCare",
-          },
+          name: "Asep Suparman",
+          ic_no: "3576014403910003",
+          amount: 90000,
+          user_id: "0003",
+          card: { card_no: "2424242424242424", card_expiry: "01/2026", card_name: "Asep Suparman" }
         });
+        console.log("Record inserted successfully", writeResult)
     } catch (writeError) {
       console.error("writeError occurred:", writeError);
     }
     // end-insert
-
-    // end-find
+  
   } finally {
     await secureClient.close();
   }

@@ -1,2 +1,2 @@
-const DEK = "ipw++Q4tTPqXHSNjPb0Azg==";
+const DEK = "1HpRWxVhRwiCfyMd4sxfsg==";
 module.exports = { DEK } 
