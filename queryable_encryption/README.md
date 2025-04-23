@@ -11,6 +11,9 @@ MONGODB_URI=mongodb+srv://<use your userid>:<use your password>@cluster0.0pftinh
 SHARED_LIB_PATH=C:\Apps\MongoDBEnterprise\bin
 ```
 
+Configure SHARED_LIB_PATH in the Windows Environments too
+![image](https://github.com/user-attachments/assets/cbde70bb-d6e7-4b6b-9191-04f2d3440e03)
+
 ## Initialise collection
 
 Run 
